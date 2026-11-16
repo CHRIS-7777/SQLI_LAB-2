@@ -1,0 +1,31 @@
+name: claude-sqli
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: claude-sqli-mysql
+    restart: "no"
+    command: ["--default-authentication-plugin=mysql_native_password","--skip-log-bin","--performance-schema=OFF","--innodb-buffer-pool-size=48M","--max-connections=60"]
+    environment:
+      MYSQL_ROOT_PASSWORD: "LabRoot#2026"
+    ports:
+      - "127.0.0.1:33071:3306"
+    mem_limit: 400m
+    volumes:
+      - mysql_data:/var/lib/mysql
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: claude-sqli-mssql
+    restart: "no"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_PASSWORD: "Lab#Sqli2026x"
+      MSSQL_MEMORY_LIMIT_MB: "768"
+    ports:
+      - "127.0.0.1:14341:1433"
+    mem_limit: 1200m
+    volumes:
+      - mssql_data:/var/opt/mssql
+volumes:
+  mysql_data:
+  mssql_data:
